@@ -30,8 +30,12 @@ df = df[df['sales']<140]
 features = df.drop(['sales', 'year'], axis=1)
 target = df['sales'].values
 
-
 X_train, X_val, Y_train, Y_val = train_test_split(features, target, test_size = 0.05, random_state=22)
+
+# Нормализация для ускорения #обучения
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_val = scaler.transform(X_val)
 model = XGBRegressor()
 model.fit(X_train, Y_train)
 train_pred = model.predict(X_train)
